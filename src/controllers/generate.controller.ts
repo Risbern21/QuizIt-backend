@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { Request, Response, NextFunction } from "express";
-import { dummy } from "../dummyresponse";
+import { Question } from "../types/types";
 
 export const generate = async (
   req: Request,
@@ -20,13 +20,11 @@ export const generate = async (
       res.status(400).json({ message: "topic must be mentioned" });
     }
 
-    // res.status(200).json(dummy);
-
     const client = new OpenAI({
       apiKey: `${process.env.API_KEY}`,
       baseURL: "https://api.chatanywhere.org/v1",
       defaultHeaders: {
-        "User-Agent": "QuizAppBackend/1.0", // add this
+        "User-Agent": "QuizAppBackend/1.0",
       },
     });
 
@@ -80,7 +78,9 @@ export const generate = async (
     });
 
     if (chatCompletion.choices[0].message.tool_calls?.[0].function.arguments) {
-      const raw = JSON.parse(
+      const raw: {
+        questions: Question[];
+      } = JSON.parse(
         chatCompletion.choices[0].message.tool_calls[0].function.arguments
       );
 
