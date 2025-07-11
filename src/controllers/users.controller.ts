@@ -1,4 +1,4 @@
-import { PrismaClient, Users } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { Request, Response, NextFunction } from "express";
 
 const prisma = new PrismaClient();
@@ -24,18 +24,3 @@ export const GetUserById = async (
     await prisma.$disconnect()
   }
 };
-
-// export const CreateUser=async(req:Request,res:Response,next:NextFunction)=>{
-//     const newUser:User=req.body
-
-//     try {
-//         const response=await prisma.user.create({
-//             data:{
-//                 email:newUser.email,
-//                 password:newUser.password
-//             }
-//         })
-//     } catch (error) {
-        
-//     }
-// }
